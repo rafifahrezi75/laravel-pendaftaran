@@ -35,7 +35,7 @@
                                                             <tr>
                                                                 <td align="left" class="esd-block-text es-p20t es-p10b">
                                                                     <p>Hallo <b class="uppercase">{{$details['nama']}}</b><br></p>
-                                                                    <p>Verifikasi data anda telah berhasil !<br><br></p>
+                                                                    <p>Verifikasi data anda telah berhasil !<br></p>
                                                                         <p>Klik disini untuk mengisi data lengkap peserta didik baru.</p>
                                                                         <a href="http://127.0.0.1:8000/formpendaftaran3/{{{$details['id']}}}">
                                                                             <button  style="width: 80px;

@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Pendaftar;
 use Illuminate\Support\Str;
 use App\Mail\SendEmail;
-use App\Mail\SendEmail2;
+use App\Mail\SendEmail3;
 use Illuminate\Support\Facades\Mail;
+
+use PDF;
 
 class KirimEmailController extends Controller
 {
@@ -104,13 +106,6 @@ class KirimEmailController extends Controller
     public function kirim3(Request $request)
     {
 
-        // $pendaftar = Pendaftar::where('id', $request->id)->first();
-
-        // $pendaftars = $pendaftar ? $pendaftar->id:'';
-        // $pendaftarsnama = $pendaftar ? $pendaftar->nama:'';
-        // $pendaftarsemail = $pendaftar ? $pendaftar->email:'';
-        // $pendaftarsid = $pendaftar ? $pendaftar->id:'';
-
         $this->validate($request, [
             'foto' => 'required',
             'nik' => 'required|min:16',
@@ -138,7 +133,28 @@ class KirimEmailController extends Controller
             'sekolahasal' => $request->sekolahasal,
         ]);
 
-        return redirect()->route('email.index3',$request->id)->with('message', 'Pengisian Data Lengkap Peserta Didik Baru Anda Berhasil, Cek Email atau Klik Tombol Detail Di Bawah Ini !');
+        $details = [
+            'foto' => $request->foto,
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'nisn' => $request->nisn,
+            'tempatlahir' => $request->tempatlahir,
+            'alamat' => $request->alamat,
+            'jeniskelamin' => $request->jeniskelamin,
+            'agama' => $request->agama,
+            'email' => $request->email,
+            'telp' => $request->telp,
+            'sekolahasal' => $request->sekolahasal,
+        ];
+
+
+        // $pdf = PDF::loadview('emails.mailtemplate3');
+
+        // return $pdf->download('pendaftaran.pdf');
+
+        Mail::to($request->email)->send(new SendEmail3($details));
+
+        return redirect()->route('email.index3',$request->id)->with('message', 'Pengisian Data Lengkap Peserta Didik Baru Anda Berhasil, Cek Email Anda !');
         
     }
 }

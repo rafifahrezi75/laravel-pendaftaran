@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 
 use PDF;
 
-class SendEmail extends Mailable
+class SendEmail3 extends Mailable
 {
     use Queueable, SerializesModels;
     public $details;
@@ -31,8 +31,7 @@ class SendEmail extends Mailable
     public function build()
     {
 
-
-        return $this->subject('Pendaftaran')
-                    ->view('emails.mailtemplate');
+        return $this->subject('Data Lengkap Peserta Didik Baru')
+                    ->view('emails.mailtemplate3');
     }
 }

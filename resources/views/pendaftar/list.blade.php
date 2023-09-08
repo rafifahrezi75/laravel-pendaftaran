@@ -63,7 +63,7 @@
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('pendaftar.edit', $pendaftar->id) }}" class="btn btn-sm btn-primary mr-2">Edit</a>
-                            <form hidden action="{{ route('pendaftar.destroy', $pendaftar->id) }}" method="post">
+                            <form action="{{ route('pendaftar.destroy', $pendaftar->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus?')">Delete</button>

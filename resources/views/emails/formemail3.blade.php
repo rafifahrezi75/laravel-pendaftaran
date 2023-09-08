@@ -126,6 +126,13 @@
                     <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
+                <div hidden class="form-group">
+                  <label for="nama">Nama Lengkap</label>
+                  <input class="form-control @error('nama') is-invalid @enderror" type="text" name="nama" value="{{ old('nama') ?? $pendaftar->nama }}">
+                  @error('nama')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
                 <div class="form-group">
                   <label for="tempatlahir">Tempat Lahir</label>
                   <input class="form-control @error('tempatlahir') is-invalid @enderror" type="text" name="tempatlahir" placeholder="Kota Tempat Anda Dilahirkan">
@@ -184,6 +191,13 @@
                   <label for="email">Alamat Email Saya</label>
                   <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" placeholder="Pastikan Email Anda Sama Dengan Yang Sebelumnya" value="{{ old('email') ?? $pendaftar->email }}">
                   @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+                <div hidden class="form-group">
+                  <label for="telp">No. Telp<span class="small text-danger">*</span></label>
+                  <input class="form-control @error('telp') is-invalid @enderror" type="text" name="telp" placeholder="Masukkan No. Telp Anda" value="{{ old('telp') ?? $pendaftar->telp }}">
+                  @error('telp')
                     <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
