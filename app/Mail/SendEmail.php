@@ -6,8 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Browsershot\Browsershot;
+// use Barryvdh\DomPDF\Facade\Pdf;
 
-use PDF;
+// use PDF;
 
 class SendEmail extends Mailable
 {
@@ -30,8 +32,6 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-
-
         return $this->subject('Pendaftaran')
                     ->view('emails.mailtemplate');
     }

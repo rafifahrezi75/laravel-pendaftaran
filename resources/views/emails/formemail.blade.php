@@ -82,15 +82,38 @@
                 @endif
                 <div class="form-group">
                   <label for="nama">Nama Lengkap</label>
-                  <input class="form-control @error('nama') is-invalid @enderror" type="text" name="nama">
+                  <input class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" type="text" name="nama">
                   @error('nama')
                     <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
                 <div class="form-group">
                   <label for="email">Alamat Email Saya</label>
-                  <input class="form-control @error('email') is-invalid @enderror" type="text" name="email">
+                  <input class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" type="text" name="email">
                   @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="telp">No. Telp / WA</label>
+                  <input class="form-control @error('telp') is-invalid @enderror" value="{{ old('telp') }}" type="text" name="telp">
+                  @error('telp')
+                    <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="kode_program">Pilih Program</label>
+                  <select class="form-control @error('kode_program') is-invalid @enderror" id="kode_program" name="kode_program">
+                    @foreach ($program as $item)
+                        @if (old('kode_program') == $item->kode_program)
+                            <option value="{{ $item->kode_program }}" selected>{{ $item->nama_program }}</option>
+                        @else
+                            <option value="{{ $item->kode_program }}">{{ $item->nama_program }}</option>
+                        @endif
+                    @endforeach
+                  </select>
+                  {{-- <input class="form-control @error('kode_program') is-invalid @enderror" type="text" name="kode_program"> --}}
+                  @error('kode_program')
                     <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
@@ -99,7 +122,7 @@
         </div>
     </form>
   </div>
-  
+
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 </body>
 </html>

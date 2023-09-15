@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Pendaftar;
+use App\Program;
 use Illuminate\Support\Str;
 use App\Mail\SendEmail;
 use App\Mail\SendEmail3;
@@ -15,10 +16,11 @@ class KirimEmailController extends Controller
 {
     public function index()
     {
-        return view('emails.formemail');
+        $program = Program::orderBy('kode_program', 'ASC')->get();
+        return view('emails.formemail', ['program' => $program]);
     }
 
-    public function index2()
+    public function index2($code)
     {
         return view('emails.formemail2');
     }
@@ -33,31 +35,49 @@ class KirimEmailController extends Controller
 
     public function kirim(Request $request)
     {
+        $this->validate($request, [
+            'email'     => 'required|email',
+            'nama' => 'required|string',
+            'telp' => [
+                'required',
+                'min:9',
+                'max:14',
+                function ($attribute, $value, $fail) {
+                    if(!preg_match('/^(\+62|62|0)8[1-9][0-9]{6,9}$/', $value)) {
+                        $fail('Nomor HP anda tidak valid! Pastikan awalan nomor +62, 62 atau 0');
+                    }
+                }
+            ],
+            'kode_program' => 'required|string'
+        ]);
 
         $kode = Str::random(5);
         $status = 0;
         $image = 0;
         $foto = 0;
 
-        $this->validate($request, [
-            'email'     => 'required',
-            'nama' => 'required'
-        ]);
-
-        $details = [
-            'nama' => $request->nama,
-            'kode' => $kode
-        ];
+        $program = Program::where('kode_program', $request->kode_program)->first();
 
         Pendaftar::create([
             'email' => $request->email,
             'nama' => $request->nama,
             'kode' => $kode,
-            'telp' => null,
+            'telp' => $request->telp,
             'status' => $status,
             'image' => $image,
-            'foto' => $foto
+            'foto' => $foto,
+            'program_id' => $program->id
         ]);
+
+        // set data to send email
+        $details = [
+            'nama' => $request->nama,
+            'telp' => $request->telp,
+            'email' => $request->email,
+            'kode' => $kode,
+            'nama_program' => $program->nama_program,
+            'logo' => public_path('img/ibad-logo.png')
+        ];
 
         Mail::to($request->email)->send(new SendEmail($details));
 
@@ -87,7 +107,7 @@ class KirimEmailController extends Controller
 
             $image = $request->file('image');
             $image->storeAs('public/assets', $image->hashName());
-    
+
             Pendaftar::where('kode', $kodepenting)->update([
                 'email' => $request->email,
                 'kode' => $kodepenting,
@@ -100,7 +120,7 @@ class KirimEmailController extends Controller
         } else{
             return redirect()->route('email.index2')->with('danger', 'No. Registrasi anda tidak valid, pastikan No. Registrasi anda sama dengan yang ada di Email !');
         }
-        
+
     }
 
     public function kirim3(Request $request)
@@ -120,7 +140,7 @@ class KirimEmailController extends Controller
 
         $image = $request->file('foto');
         $image->storeAs('public/assets', $image->hashName());
-    
+
         Pendaftar::where('id', $request->id)->update([
             'foto' => $image->hashName(),
             'nik' => $request->nik,
@@ -155,6 +175,6 @@ class KirimEmailController extends Controller
         Mail::to($request->email)->send(new SendEmail3($details));
 
         return redirect()->route('email.index3',$request->id)->with('message', 'Pengisian Data Lengkap Peserta Didik Baru Anda Berhasil, Cek Email Anda !');
-        
+
     }
 }

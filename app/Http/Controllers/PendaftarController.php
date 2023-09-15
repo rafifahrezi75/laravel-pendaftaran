@@ -60,6 +60,20 @@ class PendaftarController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function detail(pendaftar $pendaftar)
+    {
+        return view('pendaftar.detail', [
+            'title' => 'Detail Pendaftar',
+            'pendaftar' => $pendaftar
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

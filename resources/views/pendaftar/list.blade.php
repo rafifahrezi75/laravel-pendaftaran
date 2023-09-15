@@ -27,7 +27,7 @@
                     <option value="1">Disetujui</option>
                 </select>
             </form>
-        </div>  
+        </div>
     </div>
 
     @if (session('message'))
@@ -39,35 +39,42 @@
     <table class="table table-bordered table-stripped">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Email</th>
+                <th>No. Pendaftaran</th>
+                <th>Tanggal</th>
                 <th>Nama</th>
+                <th>No. Telp / WA</th>
+                <th>Email</th>
+                <th>Program</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                <th>Tindakan</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($pendaftars as $pendaftar)
                 <tr>
-                    <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{{ $pendaftar->email }}</td>
+                    {{-- <td scope="row">{{ $loop->iteration }}</td> --}}
+                    <td scope="row">{{ '-' }}</td>
+                    <td>{{ '' }}</td>
                     <td>{{ $pendaftar->nama }}</td>
+                    <td>{{ '-' }}</td>
+                    <td>{{ $pendaftar->email }}</td>
+                    <td>{{ '-' }}</td>
                     @php
-                            if($pendaftar->status == 0) {
-                                $status = '<a href="'. route('pendaftar.show', $pendaftar->id) .'"><button class="btn btn-sm btn-warning">Menunggu</button></a>';
-                            } else {
-                                $status = '<a href="'. route('pendaftar.show', $pendaftar->id) .'"><button disabled class="btn btn-sm btn-success">Disetujui</button></a>';
-                            }
-                        @endphp
+                        if($pendaftar->status == 0) {
+                            $status = '<a href="'. route('pendaftar.show', $pendaftar->id) .'"><button class="btn btn-sm btn-warning">Menunggu</button></a>';
+                        } else {
+                            $status = '<a href="'. route('pendaftar.show', $pendaftar->id) .'"><button disabled class="btn btn-sm btn-success">Disetujui</button></a>';
+                        }
+                    @endphp
                     <td>{!! $status !!}</td>
                     <td>
                         <div class="d-flex">
-                            <a href="{{ route('pendaftar.edit', $pendaftar->id) }}" class="btn btn-sm btn-primary mr-2">Edit</a>
-                            <form action="{{ route('pendaftar.destroy', $pendaftar->id) }}" method="post">
+                            <a href="{{ route('pendaftar.detail', $pendaftar->id) }}" class="btn btn-sm btn-primary mr-2">Detail</a>
+                            {{-- <form action="{{ route('pendaftar.destroy', $pendaftar->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus?')">Delete</button>
-                            </form>
+                            </form> --}}
                         </div>
                     </td>
                 </tr>

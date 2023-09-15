@@ -23,11 +23,13 @@ return new class extends Migration
             $table->string('jeniskelamin')->nullable();
             $table->string('agama')->nullable();
             $table->string('email')->unique();
-            $table->string('kode');
+            $table->string('kode'); // no. pendaftaran
             $table->string('telp')->nullable();
             $table->integer('status');
             $table->string('image');
             $table->string('sekolahasal')->nullable();
+            $table->string('no_peserta_ujian'); // no. peserta ujian
+            $table->integer('program_id');
             $table->timestamps();
         });
     }
